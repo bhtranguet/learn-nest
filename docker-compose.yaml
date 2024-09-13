@@ -1,0 +1,34 @@
+# Use postgres/example user/password credentials
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432' # Expose port 5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: myuser@example.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    ports:
+      - '5000:80' # Expose port 80 for pgAdmin
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+volumes:
+  postgres:
+  pgadmin_data:

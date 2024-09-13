@@ -8,8 +8,10 @@ import {
 } from '@nestjs/common';
 import { ForbiddenException } from './custom-exception/forbidden.exception';
 import { HttpExceptionFilter } from './exception-filter/http-exception.filter';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('exception')
+@ApiTags('exception filter')
 export class ExceptionController {
   @Get()
   async standard() {

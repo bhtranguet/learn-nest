@@ -2,9 +2,6 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
     <p align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
@@ -29,7 +26,7 @@
 ## Project setup
 
 ```bash
-$ npm install
+npm install
 ```
 
 ## Compile and run the project
@@ -83,3 +80,36 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+## Prisma
+
+- Prisma CL
+
+  - npm install prisma --save-dev
+
+- Init schema and .env
+
+  - npx prisma init
+
+- Set up conenction in schema file
+
+- Create table in schema
+
+- Run migrate to create table in database, câu lệnh này tạo ra một file .sql để run vào database
+
+  - npx prisma migrate dev --name init
+  - câu lệnh nào tạo migration file .sql
+  - run file .sql
+  - tạo Prisma Client
+
+- Cài prisma client
+
+  - npm install @prisma/client
+  - prisma client được tạo từ model definition
+  - khi install client, prisma tự động chạy npx prisma generate để generate client
+  - prisma generate đọc model trong schema và generate prisma client trong node_modules/@prisma/client
+
+- Tương tác với database thông qua prisma client
+  - bạn có thể abstract prisma client với nest Service, tạo PrismaService extends PrismaClient, khởi tạo connection trong onModuleInit
+  - onModuleInit là optional, nếu không dùng nó thì prisma sẽ khởi tạo connection khi lần đầu gọi tới database
+  - Tiếp theo bạn có thể viết UserService inject PrismaService
