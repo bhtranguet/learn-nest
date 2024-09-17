@@ -9,7 +9,6 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { ArticlesModule } from './articles/articles.module';
 import { UsersModule } from './users/users.module';
-import { CachingModule } from './caching/caching.module';
 import databaseConfig from 'config/custom-configuration-files/database.config';
 import loggingConfig from 'config/custom-configuration-files/logging.config';
 import * as Joi from 'joi';
@@ -40,7 +39,6 @@ import * as Joi from 'joi';
     PrismaModule,
     ArticlesModule,
     UsersModule,
-    CachingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

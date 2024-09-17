@@ -5,8 +5,26 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "assets": [
-      { "include": "../config/yaml/*.yaml", "outDir": "./dist/config" },
-      { "include": "../config/*.env", "outDir": "./dist/config" }
-    ]
+      {
+        "include": "../config/yaml/*.yaml",
+        "outDir": "./dist/config"
+      },
+      {
+        "include": "../config/*.env",
+        "outDir": "./dist/config"
+      }
+    ],
+    "webpack": true
+  },
+  "projects": {
+    "encryption-hashing": {
+      "type": "library",
+      "root": "libs/encryption-hashing",
+      "entryFile": "index",
+      "sourceRoot": "libs/encryption-hashing/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/encryption-hashing/tsconfig.lib.json"
+      }
+    }
   }
 }

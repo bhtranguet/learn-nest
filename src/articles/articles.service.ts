@@ -1,11 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Article } from '@prisma/client';
 
 @Injectable()
 export class ArticlesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+  ) {}
 
   create(createArticleDto: CreateArticleDto) {
     return this.prisma.article.create({
@@ -34,13 +40,22 @@ export class ArticlesService {
     });
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     // Yêu cầu trường trong where phải là unique hoặc là khóa chính
-    return this.prisma.article.findUnique({
-      where: {
-        id,
-      },
-    });
+    let article: Article = await this.cacheManager.get<Article>(
+      `article:${id}`,
+    );
+
+    if (!article) {
+      console.log('get from database');
+      article = await this.prisma.article.findUnique({
+        where: {
+          id,
+        },
+      });
+    }
+
+    return article;
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
