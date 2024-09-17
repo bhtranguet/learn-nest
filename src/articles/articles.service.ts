@@ -5,12 +5,15 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Article } from '@prisma/client';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class ArticlesService {
   constructor(
     private readonly prisma: PrismaService,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+    private readonly httpService: HttpService,
   ) {}
 
   create(createArticleDto: CreateArticleDto) {
@@ -73,5 +76,13 @@ export class ArticlesService {
         id,
       },
     });
+  }
+
+  async getAll() {
+    // Learn from observable rxjs
+    const response = await firstValueFrom(
+      this.httpService.get('http://localhost:3000/articles'),
+    );
+    return response.data;
   }
 }

@@ -44,6 +44,11 @@ export class ArticlesController {
     return this.articlesService.findDrafts();
   }
 
+  @Get('all')
+  getAll() {
+    return this.articlesService.getAll();
+  }
+
   @Get(':id')
   @ApiOkResponse({
     type: ArticleEntity,

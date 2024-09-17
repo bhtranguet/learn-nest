@@ -12,6 +12,9 @@ import { UsersModule } from './users/users.module';
 import databaseConfig from 'config/custom-configuration-files/database.config';
 import loggingConfig from 'config/custom-configuration-files/logging.config';
 import * as Joi from 'joi';
+import { BullModule } from '@nestjs/bullmq';
+import { AudioModule } from './audio/audio.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -39,6 +42,19 @@ import * as Joi from 'joi';
     PrismaModule,
     ArticlesModule,
     UsersModule,
+
+    // Register queue config
+    // Bull queue sử dụng redis
+    // host và port từ redis server
+    BullModule.forRoot({
+      connection: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+    AudioModule,
+    AuthModule,
+    PrismaModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -12,12 +12,12 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {}
 
 // Có thể pick vài trường từ base type
 export class UpdateUserEmailDto extends PickType(CreateUserDto, [
-  'email',
+  'username',
 ] as const) {}
 
 // Có thể tạo ra type mới không bao gồm email property
 export class UpdateUserNoEmailDto extends OmitType(CreateUserDto, [
-  'email',
+  'username',
 ] as const) {}
 
 export class CreateCatDto {
